@@ -20,23 +20,24 @@ def main(infile):
     for record in b.read(infile, "fasta"):
         # operation for every input line
         records.append(record)
+    print len(records)
     for i in range(len(records)):
         for j in range(len(records)):
-            if i != j:
-                seq1 = records[i].seq
-                seq2 = records[j].seq
-                print records[i].name,records[j].name
-                if overlap(seq1, seq2):
-                    print "DING"
-                    overlaps.append((records[i].name, records[j].name))
+
+            seq1 = records[i].seq
+            seq2 = records[j].seq
+            # print records[i].name,records[j].name
+            if overlap(seq1, seq2) and seq1 != seq2:
+                #print "DING"
+                overlaps.append((records[i].name, records[j].name))
 
     # returning results
     return overlaps
 
 
 def overlap(seq_a, seq_b, k=3):
-    print seq_a[-1:-k]
     if seq_a[-k:] == seq_b[0:k]:
+        #print seq_a[-k:]
         return True
     else:
         return False

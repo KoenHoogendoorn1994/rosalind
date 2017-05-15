@@ -10,12 +10,12 @@ from __future__ import division
 
 def simplewriteout(output):
     with open("output.txt", "w") as out:
-        if type(output) == str:
-            print output
-            out.write(output)
+        if type(output) in [str, int, float, bool, long]:
+            # print output
+            out.write(str(output))
         else:
             for elem in output:
-                print elem
+                # print elem
                 out.write(elem[0]+" "+elem[1]+"\n")
     return
 
@@ -39,7 +39,7 @@ def read(inname, filetype='txt'):
                 if line.startswith(">"):
                     record = FastaRecord(line.strip()[1:])
                     in_record = True
-
+            yield record
 
 class FastaRecord:
 
