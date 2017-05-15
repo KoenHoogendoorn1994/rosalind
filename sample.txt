@@ -1,1 +1,6 @@
-1 0 0 1 0 1
+>Rosalind_1
+GATTACGCAT
+>Rosalind_2
+TAGACGCA
+>Rosalind_3
+ATACGCATGCAGT
