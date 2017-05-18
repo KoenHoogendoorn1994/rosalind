@@ -10,13 +10,14 @@ from __future__ import division
 
 def simplewriteout(output):
     with open("output.txt", "w") as out:
-        if type(output) in [str, int, float, bool, long]:
+        if type(output) in [str, int, float, bool]:
             # print output
             out.write(str(output))
         else:
             for elem in output:
                 # print elem
-                out.write(elem[0]+" "+elem[1]+"\n")
+                # out.write(elem[0]+" "+elem[1]+"\n")
+                out.write(elem+"\n")
     return
 
 
@@ -40,6 +41,53 @@ def read(inname, filetype='txt'):
                     record = FastaRecord(line.strip()[1:])
                     in_record = True
             yield record
+
+
+def translatedna(dna, orf=1):
+    aa_dict = {"UUU": "F", "UUC": "F", "UUA": "L", "UUG": "L",
+               "UCU": "S", "UCC": "S", "UCA": "S", "UCG": "S",
+               "UAU": "Y", "UAC": "Y", "UAA": "*", "UAG": "*",
+               "UGU": "C", "UGC": "C", "UGA": "*", "UGG": "W",
+               "CUU": "L", "CUC": "L", "CUA": "L", "CUG": "L",
+               "CCU": "P", "CCC": "P", "CCA": "P", "CCG": "P",
+               "CAU": "H", "CAC": "H", "CAA": "Q", "CAG": "Q",
+               "CGU": "R", "CGC": "R", "CGA": "R", "CGG": "R",
+               "AUU": "I", "AUC": "I", "AUA": "I", "AUG": "M",
+               "ACU": "T", "ACC": "T", "ACA": "T", "ACG": "T",
+               "AAU": "N", "AAC": "N", "AAA": "K", "AAG": "K",
+               "AGU": "S", "AGC": "S", "AGA": "R", "AGG": "R",
+               "GUU": "V", "GUC": "V", "GUA": "V", "GUG": "V",
+               "GCU": "A", "GCC": "A", "GCA": "A", "GCG": "A",
+               "GAU": "D", "GAC": "D", "GAA": "E", "GAG": "E",
+               "GGU": "G", "GGC": "G", "GGA": "G", "GGG": "G", }
+
+    protein = ""
+    if orf > 3:
+        orf = orf-3
+        dna = revcomp(dna)
+
+    dna = dna.replace("T", "U")
+    dna = dna[orf-1:]
+    # print(dna)
+    for i in range(0, len(dna), 3):
+        # print(i)
+        if i+3 <= len(dna):
+            triplet = dna[i:i+3]
+            # print(triplet)
+            protein += aa_dict[triplet]
+
+    return protein
+
+
+def revcomp(dna):
+    dna = reversed(dna)
+    newdna = ""
+    replace_dict = {"A": "T", "C": "G", "T": "A", "G": "C"}
+    for character in dna:
+        newdna += replace_dict[character]
+
+    return newdna
+
 
 class FastaRecord:
 

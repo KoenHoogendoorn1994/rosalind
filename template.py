@@ -15,7 +15,7 @@ def main(infile):
     # vars
 
     # processing
-    for line in b.simpleread(infile):
+    for line in b.read(infile):
         # operation for every input line
         continue
 
@@ -25,7 +25,7 @@ def main(infile):
 
 if __name__ == "__main__":
 
-    if len(argv) > 1 :
+    if len(argv) > 1:
         results = main(argv[1])
     else:
         results = main('sample.txt')
