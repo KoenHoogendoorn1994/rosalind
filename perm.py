@@ -10,25 +10,24 @@ import os
 from sys import argv
 import baselib as b
 import itertools
+import math
 
-k=0
+
 def main(infile):
     # vars
 
     # processing
     for line in b.read(infile):
-        global k
         k = int(line.strip())
         initial = [x+1 for x in range(k)]
-        for permutation in itertools.permutations(initial):
-            yield permutation
-
-
-def output(generator,k):
-    with open("output.txt", "w") as out:
-
-
-
+        print k
+        s = open("output.txt", "w")
+        s.write(str(math.factorial(k)) + "\n")
+        for index, permutation in enumerate(itertools.permutations(initial)):
+            for elem in permutation:
+                s.write(str(elem) + " ")
+            if index < math.factorial(k)-1:
+                s.write("\n")
 
 
 if __name__ == "__main__":
@@ -37,7 +36,4 @@ if __name__ == "__main__":
         results = main(argv[1])
     else:
         results = main('sample.txt')
-        print(results)
-     global k
-    output(results,k)
-    # b.simplewriteout(results)
+    b.simplewriteout(results)
