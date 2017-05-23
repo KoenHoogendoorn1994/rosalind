@@ -11,13 +11,13 @@ from __future__ import division
 def simplewriteout(output):
     with open("output.txt", "w") as out:
         if type(output) in [str, int, float, bool]:
-            # print output
+            print output
             out.write(str(output))
         else:
             for elem in output:
                 for elem2 in elem:
-                    out.write(str(elem2) + " ")
-                # print elem
+                    out.write(str(elem2))
+                print elem
                 # out.write(elem[0]+" "+elem[1]+"\n")
                 out.write("\n")
     return
@@ -45,7 +45,7 @@ def read(inname, filetype='txt'):
             yield record
 
 
-def translatedna(dna, orf=1):
+def translate(dna, orf=1, includestop=False):
     aa_dict = {"UUU": "F", "UUC": "F", "UUA": "L", "UUG": "L",
                "UCU": "S", "UCC": "S", "UCA": "S", "UCG": "S",
                "UAU": "Y", "UAC": "Y", "UAA": "*", "UAG": "*",
@@ -65,17 +65,21 @@ def translatedna(dna, orf=1):
 
     protein = ""
     if orf > 3:
-        orf = orf-3
+        orf = orf - 3
         dna = revcomp(dna)
 
-    dna = dna.replace("T", "U")
-    dna = dna[orf-1:]
-    # print(dna)
+    if "U" not in dna:
+        dna = dna.replace("T", "U")
+    dna = dna[orf - 1:]
+
     for i in range(0, len(dna), 3):
-        # print(i)
-        if i+3 <= len(dna):
-            triplet = dna[i:i+3]
-            # print(triplet)
+
+        if i + 3 <= len(dna):
+            triplet = dna[i:i + 3]
+
+        if includestop:
+            protein += aa_dict[triplet]
+        elif aa_dict[triplet] != "*":
             protein += aa_dict[triplet]
 
     return protein
@@ -92,9 +96,6 @@ def revcomp(dna):
 
 
 class FastaRecord:
-
     def __init__(self, recordname, seq=""):
         self.name = recordname
         self.seq = seq
-
-
