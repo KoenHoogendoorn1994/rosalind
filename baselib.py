@@ -15,10 +15,10 @@ def simplewriteout(output):
             out.write(str(output))
         else:
             for elem in output:
-                for elem2 in elem:
-                    out.write(str(elem2))
+                # for elem2 in elem:
+                #     out.write(str(elem2))
                 print elem
-                # out.write(elem[0]+" "+elem[1]+"\n")
+                out.write(str(elem)+"\n")
                 out.write("\n")
     return
 
