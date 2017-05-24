@@ -41,16 +41,6 @@ def main(infile):
     return assembly
 
 
-def overlap(seq1, seq2):
-    min_len = int(math.ceil(max((len(seq1), len(seq2)))/2))
-
-    if seq1[min_len:] in seq2:
-        return -1
-    elif seq1[:min_len] in seq2:
-        return 1
-    else:
-        return False
-
 if __name__ == "__main__":
 
     if len(argv) > 1:
